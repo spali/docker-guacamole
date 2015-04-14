@@ -92,8 +92,8 @@ apt-get autoremove -y
 apt-get clean
 find /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	/usr/share/man /usr/share/groff /usr/share/info \
-	/usr/share/lintian /usr/share/linda /var/cache/man -type f -exec rm -f {} || true \;
-find /usr/share/doc -depth -type f ! -name copyright -exec rm -f {} \;
+	/usr/share/lintian /usr/share/linda /var/cache/man -type f -exec rm -f {} \; || true
+find /usr/share/doc -depth -type f ! -name copyright -exec rm -f {} \; || true
 
 #######################################################################################
 
