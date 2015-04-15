@@ -9,16 +9,15 @@ ENV MCJ_VER 5.1.32
 # Version of postgresql-connector-java to install
 ENV PCJ_VER 9.4-1201
 
-# Don't let apt install docs or man pages
-ADD excludes /etc/dpkg/dpkg.cfg.d/excludes
-# install required apackages
-RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends supervisor tomcat7 && \
-	apt-get clean && \
-	find /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-		/usr/share/man /usr/share/groff /usr/share/info \
-		/usr/share/lintian /usr/share/linda /var/cache/man -type f -exec rm -f {} \; || true && \
-	find /usr/share/doc -depth -type f ! -name copyright -exec rm -f {} \; 
+# prepare apt and system (first clean is required to prevent gpg keys errors)
+RUN apt-get clean && \
+	apt-get update && \
+	DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+	apt-get clean
+
+## install required apackages
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends supervisor tomcat7 && \
+	apt-get clean
 
 # build and install guacamole and related components (wrapped script to minimize image commits and keep images small)
 COPY build.sh /

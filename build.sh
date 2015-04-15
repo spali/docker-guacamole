@@ -81,6 +81,8 @@ echo "--------------------------------------------------------------------------
 rm -Rf /tmp/guacamole-client
 rm -Rf /tmp/guacamole-server
 rm -Rf /tmp/guacamole-modules
+# delete maven downloads
+rm -Rf /root/.m2
 
 echo "---------------------------------------------------------------------------------------"
 echo " cleanup build dependencies (not required anymore)"
@@ -90,10 +92,6 @@ apt-get purge -y git-core wget \
 	libtool autoconf automake make 
 apt-get autoremove -y
 apt-get clean
-find /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-	/usr/share/man /usr/share/groff /usr/share/info \
-	/usr/share/lintian /usr/share/linda /var/cache/man -type f -exec rm -f {} \; || true
-find /usr/share/doc -depth -type f ! -name copyright -exec rm -f {} \; || true
 
 #######################################################################################
 
